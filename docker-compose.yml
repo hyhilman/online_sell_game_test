@@ -1,0 +1,23 @@
+version: "3.1"
+services:
+  web:
+    image: php:laravel5.2
+    working_dir: /web
+    command: php artisan serve --host 0.0.0.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${PWD}:/web
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ${PWD}/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: simple
+      MYSQL_PASSWORD: simple
+      MYSQL_DATABASE: simple
+
+
