@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index');
+Route::get('/game/{id}', 'HomeController@game');
 
 Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
     Route::resource('games', 'GameController', ['only' => [
@@ -40,8 +41,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'API', 'middleware' => 'auth:api
     ]]);
 });
 
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/topup', 'HomeController@topup');
+    Route::get('/topuphistory', 'HomeController@topuphistory');
+    Route::get('/orderhistory', 'HomeController@orderhistory');
+    Route::get('/admin', 'AdminController@index');
+});
+
 Route::auth();
-Route::get('/topup', 'HomeController@topup');
-Route::get('/game/{id}', 'HomeController@game');
-Route::get('/topuphistory', 'HomeController@topuphistory');
-Route::get('/orderhistory', 'HomeController@orderhistory');

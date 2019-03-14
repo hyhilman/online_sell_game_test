@@ -36,7 +36,9 @@
                 game.find('form').attr('id','BuyGame'+result.data[i].id);
                 game.find('form').addClass('buy');
                 game.find('form').html('<input type="text" name="game_id" value='+result.data[i].id+'>')
+                @if (Auth::check())
                 game.find('form').append('<input type="text" name="user_id" value="{{ Auth::user()->id }}">')
+                @endif
                 game.find('form').append('<input type="hidden" name="_token" value="{{ csrf_token() }}">')
                 game.find('form').append('<input type="submit">');
 

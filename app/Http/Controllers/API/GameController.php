@@ -33,7 +33,7 @@ class GameController extends Controller
     {
         // $this->authorize('store', Game::class);
 
-        $gameId = Game::insertGetId($request->all());
+        $gameId = Game::insertGetId($request->except('_token'));
         $newData = Game::findOrFail($gameId);
         return response()->json($newData, 201);
     }
@@ -62,7 +62,7 @@ class GameController extends Controller
         // $this->authorize('update', Game::class);
 
         $data = Game::findOrFail($id);
-        $data->update($request->all());
+        $data->update($request->except('_token'));
 
         return response()->json($data, 200);
     }
