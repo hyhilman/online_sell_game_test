@@ -22,7 +22,7 @@ class TopupLogger
     /**
      * Handle the event.
      *
-     * @param  Transaction  $event
+     * @param  Transaction $event
      * @return void
      */
     public function handle(Transaction $event)

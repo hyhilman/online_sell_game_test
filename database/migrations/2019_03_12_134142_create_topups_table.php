@@ -12,15 +12,17 @@ class CreateTopupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('topups', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->double('amount');
-            $table->timestamp('created_at');
+        Schema::create(
+            'topups', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('user_id');
+                $table->double('amount');
+                $table->timestamp('created_at');
 
-            $table->foreign('user_id')
-                ->references('id')->on('users');
-        });
+                $table->foreign('user_id')
+                    ->references('id')->on('users');
+            }
+        );
     }
 
     /**

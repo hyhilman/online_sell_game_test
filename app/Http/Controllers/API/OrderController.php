@@ -22,8 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if( Auth::Guard('api')->user()->level === "admin")
-        {
+        if(Auth::Guard('api')->user()->level === "admin") {
             $order = Order::with('game')->paginate(8);
         } else {
             $order = Order::with('game')->where('user_id', Auth::Guard('api')->user()->id)->paginate(8);
@@ -35,7 +34,7 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -46,9 +45,8 @@ class OrderController extends Controller
 
         $this->authorizeForUser($user, 'store', $order);
 
-        if (
-            !empty($user->userbalance) &&
-            $user->userbalance->balance - $game->price >= 0
+        if (!empty($user->userbalance) 
+            && $user->userbalance->balance - $game->price >= 0
         ) {
             event(new Transaction($user, $order));
             $user->userbalance->fresh();

@@ -28,7 +28,7 @@ class TopupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -37,10 +37,9 @@ class TopupController extends Controller
         $topup = new Topup($request->except('_token'));
         $this->authorizeForUser($user, 'store', $topup);
 
-        if (
-            $request->amount == 10 ||
-            $request->amount == 25 ||
-            $request->amount == 50
+        if ($request->amount == 10 
+            || $request->amount == 25 
+            || $request->amount == 50
         ) {
             event(new Transaction($user, $topup));
             $user->userbalance->fresh();

@@ -12,15 +12,17 @@ class CreateUserBalancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_balances', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->double('balance');
-            $table->timestamps();
+        Schema::create(
+            'user_balances', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('user_id')->unique();
+                $table->double('balance');
+                $table->timestamps();
 
-            $table->foreign('user_id')
-                ->references('id')->on('users');
-        });
+                $table->foreign('user_id')
+                    ->references('id')->on('users');
+            }
+        );
     }
 
     /**

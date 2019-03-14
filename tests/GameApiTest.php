@@ -20,11 +20,11 @@ class GameApiTest extends TestCase
     protected function tearDown()
     {
 
-        if( $this->user ) {
+        if($this->user ) {
             $this->user->forceDelete();
         }
 
-        if( $this->game ) {
+        if($this->game ) {
             $this->game->forceDelete();
         }
         parent::tearDown();
@@ -52,13 +52,15 @@ class GameApiTest extends TestCase
 
         $response
             ->assertResponseStatus(200)
-            ->seeJson([
+            ->seeJson(
+                [
                 'title' => $this->game->title,
                 'image_url' => $this->game->image_url,
                 'price' => $this->game->price,
                 'description' => $this->game->description,
                 'publisher' => $this->game->publisher
-            ]);
+                ]
+            );
     }
 
     public function testCreateGameGuest()
@@ -129,13 +131,15 @@ class GameApiTest extends TestCase
 
         $response
             ->assertResponseStatus(201)
-            ->seeJson([
+            ->seeJson(
+                [
                 'title' => $this->game->title,
                 'image_url' => $this->game->image_url,
                 'price' => $this->game->price,
                 'description' => $this->game->description,
                 'publisher' => $this->game->publisher,
-            ]);
+                ]
+            );
     }
 
     public function testUpdateGameGuest()
@@ -207,14 +211,16 @@ class GameApiTest extends TestCase
 
         $response
             ->assertResponseStatus(200)
-            ->seeJson([
+            ->seeJson(
+                [
                 'id' => $this->game->id,
                 'title' => $newGame->title,
                 'image_url' => $newGame->image_url,
                 'price' => $newGame->price,
                 'description' => $newGame->description,
                 'publisher' => $newGame->publisher
-            ]);
+                ]
+            );
     }
 
     public function testDeleteGameGuest()

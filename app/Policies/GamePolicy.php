@@ -12,7 +12,7 @@ class GamePolicy
 
     public function before($user, $ability)
     {
-        if( $user->isAdmin() ) {
+        if($user->isAdmin() ) {
             return true;
         }
     }

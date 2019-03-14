@@ -159,10 +159,12 @@ class OrderApiTest extends TestCase
 
         $response
             ->assertResponseStatus(201)
-            ->seeJson([
+            ->seeJson(
+                [
                 'user_id' => $this->user->id,
                 'balance' => $this->user->userbalance->balance,
-            ]);
+                ]
+            );
     }
 
     public function testCreateOrderCustomerNotDepositAnotherUser()

@@ -12,18 +12,20 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('game_id');
-            $table->timestamp('created_at');
+        Schema::create(
+            'orders', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('game_id');
+                $table->timestamp('created_at');
 
-            $table->foreign('user_id')
-                ->references('id')->on('users');
+                $table->foreign('user_id')
+                    ->references('id')->on('users');
 
-            $table->foreign('game_id')
-                ->references('id')->on('games');
-        });
+                $table->foreign('game_id')
+                    ->references('id')->on('games');
+            }
+        );
     }
 
     /**

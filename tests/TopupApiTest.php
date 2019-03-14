@@ -131,10 +131,12 @@ class TopupApiTest extends TestCase
 
         $response
             ->assertResponseStatus(201)
-            ->seeJson([
+            ->seeJson(
+                [
                 'user_id' => $this->user->id,
                 'balance' => 60,
-            ]);
+                ]
+            );
     }
 
     public function testCreateTopupCustomerRandomAmountAnotherUser()

@@ -22,7 +22,7 @@ class UpdateBalance
     /**
      * Handle the event.
      *
-     * @param  Transactions  $event
+     * @param  Transactions $event
      * @return void
      */
     public function handle(Transaction $event)

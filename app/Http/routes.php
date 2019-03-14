@@ -11,41 +11,57 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/home');
-});
+Route::get(
+    '/', function () {
+        return redirect('/home');
+    }
+);
 
 Route::get('/home', 'HomeController@index');
 Route::get('/game/{id}', 'HomeController@game');
 
-Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
-    Route::resource('games', 'GameController', ['only' => [
-        'index', 'show'
-    ]]);
-});
+Route::group(
+    ['prefix' => 'api', 'namespace' => 'API'], function () {
+        Route::resource(
+            'games', 'GameController', ['only' => [
+            'index', 'show'
+            ]]
+        );
+    }
+);
 
 
-Route::group(['prefix' => 'api', 'namespace' => 'API', 'middleware' => 'auth:api'], function () {
+Route::group(
+    ['prefix' => 'api', 'namespace' => 'API', 'middleware' => 'auth:api'], function () {
 
-    Route::resource('games', 'GameController', ['only' => [
-        'store', 'update', 'destroy'
-    ]]);
+        Route::resource(
+            'games', 'GameController', ['only' => [
+            'store', 'update', 'destroy'
+            ]]
+        );
 
-    Route::resource('order', 'OrderController', ['only' => [
-        'index', 'store'
-    ]]);
+        Route::resource(
+            'order', 'OrderController', ['only' => [
+            'index', 'store'
+            ]]
+        );
 
-    Route::resource('topups', 'TopupController', ['only' => [
-        'index', 'store'
-    ]]);
-});
+        Route::resource(
+            'topups', 'TopupController', ['only' => [
+            'index', 'store'
+            ]]
+        );
+    }
+);
 
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/topup', 'HomeController@topup');
-    Route::get('/topuphistory', 'HomeController@topuphistory');
-    Route::get('/orderhistory', 'HomeController@orderhistory');
-    Route::get('/admin', 'AdminController@index');
-});
+Route::group(
+    ['middleware' => 'auth'], function () {
+        Route::get('/topup', 'HomeController@topup');
+        Route::get('/topuphistory', 'HomeController@topuphistory');
+        Route::get('/orderhistory', 'HomeController@orderhistory');
+        Route::get('/admin', 'AdminController@index');
+    }
+);
 
 Route::auth();
