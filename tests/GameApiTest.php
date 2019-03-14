@@ -103,7 +103,7 @@ class GameApiTest extends TestCase
                 ],
                 ['Accept' => 'application/json']
             );
-
+        
         $response->assertResponseStatus(403);
     }
 
@@ -126,7 +126,7 @@ class GameApiTest extends TestCase
                 ],
                 ['Accept' => 'application/json']
             );
-            
+
         $response
             ->assertResponseStatus(201)
             ->seeJson([

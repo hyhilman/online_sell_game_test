@@ -29,8 +29,8 @@ class OrderApiTest extends TestCase
                 $this->user->orders()->forceDelete();
             }
 
-            if ($this->user->userBalance()) {
-                $this->user->userBalance()->forceDelete();
+            if ($this->user->userbalance()) {
+                $this->user->userbalance()->forceDelete();
             }
 
             $this->user->forceDelete();
@@ -72,62 +72,6 @@ class OrderApiTest extends TestCase
             ->actingAs($this->user, 'api')
             ->get(
                 '/api/order/',
-                ['Accept' => 'application/json']
-            );
-
-        $response->assertResponseStatus(200);
-    }
-
-    public function testReadSpecifiedOrderGuest()
-    {
-        $this->user = factory(User::class)->create();
-
-        $order = factory(Order::class)->create([
-            'game_id' => $this->game->id,
-            'user_id' => $this->user->id,
-        ]);
-
-        $response = $this
-            ->get(
-                '/api/order/'.$order->id,
-                ['Accept' => 'application/json']
-            );
-
-        $response->assertResponseStatus(401);
-    }
-
-    public function testReadSpecifiedOrderCustomer()
-    {
-        $this->user = factory(User::class)->create();
-
-        $order = factory(Order::class)->create([
-            'game_id' => $this->game->id,
-            'user_id' => $this->user->id
-        ]);
-
-        $response = $this
-            ->actingAs($this->user, 'api')
-            ->get(
-                '/api/order/'.$order->id,
-                ['Accept' => 'application/json']
-            );
-
-        $response->assertResponseStatus(200);
-    }
-
-    public function testReadSpecifiedOrderAdmin()
-    {
-        $this->user = factory(User::class)->create(['level'=>'admin']);
-
-        $order = factory(Order::class)->create([
-            'game_id' => $this->game->id,
-            'user_id' => $this->user->id
-        ]);
-
-        $response = $this
-            ->actingAs($this->user, 'api')
-            ->get(
-                '/api/order/'.$order->id,
                 ['Accept' => 'application/json']
             );
 
@@ -217,16 +161,7 @@ class OrderApiTest extends TestCase
             ->assertResponseStatus(201)
             ->seeJson([
                 'user_id' => $this->user->id,
-                'game_id' => $this->game->id,
-            ]);
-
-        $this
-            ->assertResponseStatus(200)
-            ->actingAs($this->user, 'api')
-            ->get('/api/user',['Accept' => 'application/json'])
-            ->seeJson([
-                'id' => $this->user->id,
-                'balance' => $this->user->userbalance->balance - $this->game->price,
+                'balance' => $this->user->userbalance->balance,
             ]);
     }
 

@@ -27,13 +27,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
 
 Route::group(['prefix' => 'api', 'namespace' => 'API', 'middleware' => 'auth:api'], function () {
 
-
     Route::resource('games', 'GameController', ['only' => [
         'store', 'update', 'destroy'
     ]]);
 
     Route::resource('order', 'OrderController', ['only' => [
-        'index', 'show', 'store'
+        'index', 'store'
     ]]);
 
     Route::resource('topups', 'TopupController', ['only' => [

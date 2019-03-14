@@ -21,13 +21,7 @@ class TopupController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->level === "admin")
-        {
-            $data = Topup::paginate(8);
-        } else {
-            $data = Topup::where('user_id', Auth::user()->id)->paginate(8);
-        }
-
+        $data = Topup::where('user_id', Auth::guard('api')->user()->id)->paginate(8);
         return response()->json($data, 200);
     }
 
@@ -39,18 +33,18 @@ class TopupController extends Controller
      */
     public function store(Request $request)
     {
-
-        $user = User::with('userbalance')->findOrFail($request->user_id);
+        $user = User::with('userbalance')->findOrFail(Auth::guard('api')->user()->id);
+        $topup = new Topup($request->except('_token'));
+        $this->authorizeForUser($user, 'store', $topup);
 
         if (
             $request->amount == 10 ||
             $request->amount == 25 ||
             $request->amount == 50
         ) {
-            event(new Transaction($user, new Topup(['amount'=>$request->amount])));
-            $user = User::with('userbalance')->findOrFail($user->id);
+            event(new Transaction($user, $topup));
+            $user->userbalance->fresh();
             return response()->json($user, 201);
-
         } else {
             return response()
                 ->json(['message' => 'Request Data Invalid!'])

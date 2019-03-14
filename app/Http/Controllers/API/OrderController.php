@@ -24,12 +24,12 @@ class OrderController extends Controller
     {
         if( Auth::Guard('api')->user()->level === "admin")
         {
-            $data = Order::with('game')->paginate(8);
+            $order = Order::with('game')->paginate(8);
         } else {
-            $data = Order::with('game')->where('user_id', Auth::Guard('api')->user()->id)->paginate(8);
+            $order = Order::with('game')->where('user_id', Auth::Guard('api')->user()->id)->paginate(8);
         }
 
-        return response()->json($data, 200);
+        return response()->json($order, 200);
     }
 
     /**
@@ -41,34 +41,22 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $game = Game::findOrFail($request->game_id);
-        $user = User::with('userbalance')->findOrFail($request->user_id);
+        $user = User::with('userbalance')->findOrFail(Auth::guard('api')->user()->id);
+        $order = new Order($request->except('_token'));
 
-        // $this->authorize('create', $game);
+        $this->authorizeForUser($user, 'store', $order);
+
         if (
             !empty($user->userbalance) &&
             $user->userbalance->balance - $game->price >= 0
         ) {
-            event(new Transaction($user, new Order($request->all())));
-            $user = User::with('userbalance')->findOrFail($user->id);
+            event(new Transaction($user, $order));
+            $user->userbalance->fresh();
             return response()->json($user, 201);
 
         } else {
             return response()->json(['message' => 'Insufficient balance!'], 500);
         }
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $data = Order::findOrFail($id);
-        // $this->authorize('view', $data);
-
-        return response()->json($data, 200);
     }
 }

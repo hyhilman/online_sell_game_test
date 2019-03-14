@@ -17,26 +17,23 @@ class GamePolicy
         }
     }
 
-    public function view(User $user)
+    public function view(User $user, Game $game)
     {
         return true;
     }
 
     public function store(User $user, Game $game)
     {
-        dd($user);
         return false;
     }
 
     public function update(User $user, Game $game)
     {
-        dd($user);
         return false;
     }
 
     public function destroy(User $user, Game $game)
     {
-        dd($user);
         return false;
     }
 }

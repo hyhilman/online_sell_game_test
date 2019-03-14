@@ -19,6 +19,7 @@ class GameController extends Controller
      */
     public function index()
     {
+
         $data = Game::withCount('order')->paginate(8);
         return response()->json($data, 200);
     }
@@ -31,11 +32,10 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->authorize('store', Game::class);
-
-        $gameId = Game::insertGetId($request->except('_token'));
-        $newData = Game::findOrFail($gameId);
-        return response()->json($newData, 201);
+        $game =  new Game($request->except('_token'));
+        $this->authorizeForUser(Auth::guard('api')->user(), 'store', $game);
+        $game->save();
+        return response()->json($game, 201);
     }
 
     /**
@@ -46,8 +46,8 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $data = Game::withCount('order')->findOrFail($id);
-        return response()->json($data, 200);
+        $game = Game::withCount('order')->findOrFail($id);
+        return response()->json($game, 200);
     }
 
     /**
@@ -59,12 +59,11 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->authorize('update', Game::class);
-
-        $data = Game::findOrFail($id);
-        $data->update($request->except('_token'));
-
-        return response()->json($data, 200);
+        $game = Game::findOrFail($id);
+        $this->authorizeForUser(Auth::guard('api')->user(), 'update', $game);
+        $game->update($request->except('_token'));
+        $game->fresh();
+        return response()->json($game, 200);
     }
 
     /**
@@ -75,13 +74,11 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        // $this->authorize('destroy', Game::class);
+        $game = Game::findOrFail($id);
+        $this->authorizeForUser(Auth::guard('api')->user(), 'destroy', $game);
+        if ($game->delete()) {
 
-        $data = Game::findOrFail($id);
-
-        if ($data->delete()) {
-
-            return response()->json('', 200);
+            return response()->json('', 204);
 
         } else {
 

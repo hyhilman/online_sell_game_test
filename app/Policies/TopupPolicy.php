@@ -4,9 +4,9 @@ namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\User;
-use App\Order;
+use App\Topup;
 
-class OrderPolicy
+class TopupPolicy
 {
     use HandlesAuthorization;
 
@@ -17,13 +17,13 @@ class OrderPolicy
     //     }
     // }
 
-    public function view(User $user, Order $order)
+    public function view(User $user, Topup $topup)
     {
-        return $user->id == $order->user_id;
+        return $user->id == $topup->user_id;
     }
 
-    public function store(User $user, Order $order)
+    public function store(User $user, Topup $topup)
     {
-        return $user->id == $order->user_id;
+        return $user->id == $topup->user_id;
     }
 }
