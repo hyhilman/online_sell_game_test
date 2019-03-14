@@ -2,19 +2,20 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+class Game extends Model
 {
     use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token'
+        'title', 'publisher', 'release_date', 'price', 'image_url', 'description',
     ];
 
     /**
@@ -32,29 +33,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'created_at' => 'datetime',
+        'release_date' => 'date',
         'deleted_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    public function topups()
-    {
-        return $this->hasMany('App\Topup');
-    }
-
-    public function orders()
+    public function order()
     {
         return $this->hasMany('App\Order');
-    }
-
-    public function userbalance()
-    {
-        return $this->hasOne('App\UserBalance');
-    }
-
-    public function isAdmin()
-    {
-        return $this->level === "admin";
     }
 }

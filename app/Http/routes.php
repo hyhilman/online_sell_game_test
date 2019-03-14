@@ -12,9 +12,36 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
+});
+
+Route::get('/home', 'HomeController@index');
+
+Route::group(['prefix' => 'api', 'namespace' => 'API'], function () {
+    Route::resource('games', 'GameController', ['only' => [
+        'index', 'show'
+    ]]);
+});
+
+
+Route::group(['prefix' => 'api', 'namespace' => 'API', 'middleware' => 'auth:api'], function () {
+
+
+    Route::resource('games', 'GameController', ['only' => [
+        'store', 'update', 'destroy'
+    ]]);
+
+    Route::resource('order', 'OrderController', ['only' => [
+        'index', 'show', 'store'
+    ]]);
+
+    Route::resource('topups', 'TopupController', ['only' => [
+        'index', 'store'
+    ]]);
 });
 
 Route::auth();
-
-Route::get('/home', 'HomeController@index');
+Route::get('/topup', 'HomeController@topup');
+Route::get('/game/{id}', 'HomeController@game');
+Route::get('/topuphistory', 'HomeController@topuphistory');
+Route::get('/orderhistory', 'HomeController@orderhistory');

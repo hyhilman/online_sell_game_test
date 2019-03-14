@@ -24,7 +24,8 @@
         "stanley/geocodio-php": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "mtdowling/cron-expression": "1.0.4",
-        "indatus/dispatcher": "1.4.*@dev"
+        "indatus/dispatcher": "1.4.*@dev",
+        "doctrine/inflector": "1.1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -66,6 +67,9 @@
         ]
     },
     "config": {
+        "platform": {
+            "php": "5.6"
+        },
         "preferred-install": "dist"
     }
 }
