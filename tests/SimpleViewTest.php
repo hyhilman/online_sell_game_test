@@ -28,13 +28,13 @@ class SimpleViewTest extends TestCase
     //     $user->forceDelete();
     // }
 
-    public function testAdmin()
-    {
-        $user = factory(User::class)->create(['level' => 'admin']);
-        $this
-            ->visit('/home')
-            ->see('Admin Page');
-
-        $user->forceDelete();
-    }
+    // public function testAdmin()
+    // {
+    //     $user = factory(User::class)->create(['level' => 'admin']);
+    //     $this
+    //         ->visit('/home')
+    //         ->see('Admin Page');
+    //
+    //     $user->forceDelete();
+    // }
 }

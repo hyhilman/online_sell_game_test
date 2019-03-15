@@ -121,8 +121,7 @@
                           <h6 class="publisher card-subtitle mb-2 text-muted">Card subtitle</h6>
                           <a href="#" class="btn btn-primary mx-auto buy">Go somewhere</a>
                           <a href="#" class="btn btn-primary mx-auto">Detail</a>
-                          <form action="{{ URL::to('api/order') }}" method="POST" style="display: none;">
-                          </form>
+                          <form action="{{ URL::to('api/order') }}" method="POST" style="display: none;"></form>
                         </div>
                     </div>
                 </div>
